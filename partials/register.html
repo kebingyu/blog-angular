@@ -1,0 +1,32 @@
+<div class="title">
+  A Simple Blog App
+</div>
+<div class="">
+  <div class="center-horizontal col-md-4 input-group">
+    <div class="alert alert-danger" role="alert" ng-show="error.show">
+      <p ng-repeat="message in error.messages">{{message}}</p>
+    </div>
+    <div class="alert alert-success" role="alert" ng-show="success.show">
+      <p>User {{success.user}} is created.</p>
+      <p>Please visit <a href="/">home</a> to log in.</p>
+    </div>
+    <form class="" role="form" ng-submit="register()">
+      <input type="text" class="form-control" placeholder="Username"
+        name="username"
+        ng-model="data.username">
+      <input type="text" class="form-control" placeholder="Email"
+        name="email"
+        ng-model="data.email">
+      <input type="password" class="form-control" placeholder="New Password"
+        name="password"
+        ng-model="data.password">
+      <input type="password" class="form-control" placeholder="Re-enter Password"
+        name="password_confirmation"
+        ng-model="data.password_confirmation">
+      <div class="form-action">
+        <button type="submit" ng-disabled="false" class="btn btn-primary">Register</button>
+        <a href="/" class="btn btn-link">Home</a>
+      </div>
+    </form>
+  </div>
+</div>

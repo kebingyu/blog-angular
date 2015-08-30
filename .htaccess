@@ -1,0 +1,14 @@
+<IfModule !mod_rewrite.c>
+  FallbackResource /index.html
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+
+  # Pass all requests not referring directly to files in the filesystem to
+  # index.php.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !=/favicon.ico
+  RewriteRule ^ index.html [L]
+</IfModule>

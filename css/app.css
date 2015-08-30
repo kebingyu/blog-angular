@@ -1,0 +1,23 @@
+body {
+  background: #edf0f5;
+}
+.pointer {
+  cursor: pointer;
+}
+#home {
+  clear: both;
+  overflow: hidden;
+  margin-top: 100px;
+}
+#home div.title {
+  font-size: 3em;
+  text-align: center;
+  margin-bottom: 50px;
+}
+#home div.center-horizontal {
+  margin-left: auto;
+  margin-right: auto;
+}
+#home input {
+  margin-bottom: 10px;
+}

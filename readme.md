@@ -1,8 +1,8 @@
 ## A simple blog app
 
-* Built with Angular.js
-* Consume API from different backend
-** PHP with Laravel 5
+* Built with Angular.js and Bootstrap 3
+* Consume API from different backends for user/blog management
+  - [PHP with Laravel 5](https://github.com/kebingyu/api-laravel)
 
 ## Install
 

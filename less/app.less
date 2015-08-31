@@ -10,19 +10,33 @@ body {
     clear: both;
     overflow: hidden;
     margin-top: 100px;
-    
     div.title {
         font-size: 3em;
         text-align: center;
         margin-bottom: 50px;
     }
-
-    div.center-horizontal {
-        margin-left: auto;
-        margin-right: auto;
-    }
-
     input {
         margin-bottom: 10px;
+    }
+}
+
+#dashboard {
+    .main {
+        margin-top: 70px;
+        float: none;
+    }
+    div.profile-header {
+        font-size: 2em;
+        margin: 20px 0;
+    }
+    span.profile-details__editicon:before {
+        position: relative;
+        left: 15px;
+        cursor: pointer;
+    }
+    form.profile-details__edit {
+        input {
+            margin-bottom: 10px;
+        }
     }
 }

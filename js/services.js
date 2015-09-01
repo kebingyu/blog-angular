@@ -5,7 +5,8 @@
     angular
         .module('blogServices', ['ngResource'])
         .factory('AuthService', AuthService)
-        .factory('UserService', UserService);
+        .factory('UserService', UserService)
+        .factory('BlogService', BlogService);
 
     AuthService.$inject = ['$cookieStore', '$rootScope', '$timeout', '$http', '$resource'];
     function AuthService($cookieStore, $rootScope, $timeout, $http, $resource) {
@@ -48,8 +49,8 @@
         }
     }
 
-    UserService.$inject = ['$rootScope', '$resource'];
-    function UserService($rootScope, $resource) {
+    UserService.$inject = ['$resource'];
+    function UserService($resource) {
         var api = apiEndpoint + '/v1/user/:user_id?user_id=:user_id&token=:token';
         var service = {};
         service.query = $resource(api, {
@@ -61,6 +62,47 @@
             },
             update : {
                 method : 'PUT'
+            },
+            remove : {
+                method : 'DELETE'
+            }
+        });
+        service.toggleMessage = function(show, messages) {
+            return {
+                show : show,
+                messages : messages || []
+            };
+        };
+
+        return service;
+    }
+
+    BlogService.$inject = ['$resource'];
+    function BlogService($resource) {
+        var api = apiEndpoint + '/v1/blog/:blog_id?user_id=:user_id&token=:token';
+        var apiAll = apiEndpoint + '/v1/blog?user_id=:user_id&token=:token';
+        var service = {};
+        service.query = $resource(api, {
+            blog_id : '@blog_id',
+            user_id : '@user_id',
+            token : '@token'
+        }, {
+            read : {
+                method : 'GET'
+            },
+            update : {
+                method : 'PUT'
+            },
+            remove : {
+                method : 'DELETE'
+            }
+        });
+        service.queryAll = $resource(apiAll, {
+            user_id : '@user_id',
+            token : '@token'
+        }, {
+            read : {
+                method : 'GET'
             },
             remove : {
                 method : 'DELETE'

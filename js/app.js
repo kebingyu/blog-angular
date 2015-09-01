@@ -45,11 +45,11 @@
 
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
             var publicUrl = ['/', '/register'],
-                restricted = false,
+                restricted = true,
                 currUrl = $location.path();
             for (var i = 0, j = publicUrl.length; i <j; i++) {
-                if (currUrl !== publicUrl[i]) {
-                    restricted = true;
+                if (currUrl == publicUrl[i]) {
+                    restricted = false;
                     break;
                 }
             }

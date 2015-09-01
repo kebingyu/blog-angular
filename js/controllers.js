@@ -68,25 +68,22 @@
         };
     }
 
-    DashboardController.$inject = ['$scope', '$location', 'AuthService', 'UserService'];
-    function DashboardController($scope, $location, AuthService, UserService) {
+    DashboardController.$inject = ['$scope', '$location', 'AuthService', 'UserService', 'BlogService'];
+    function DashboardController($scope, $location, AuthService, UserService, BlogService) {
         $scope.reset = function() {
             $scope.error = {};
             $scope.success = {};
         };
         $scope.init = function() {
             $scope.layoutId = 'dashboard';
-            $scope.states = {
-                view : 'blog'
-            };
+            $scope.states = {};
             $scope.goto = {
                 url : '/',
                 text : 'Home'
             };
             $scope.currentUser = AuthService.getAuthData().currentUser;
-            $scope.reset();
+            $scope.viewBlog();
         };
-        $scope.init();
         $scope.logout = function() {
             AuthService.logout
                 .save($scope.currentUser)
@@ -161,6 +158,19 @@
         $scope.viewBlog = function() {
             $scope.reset();
             $scope.states.view = 'blog';
+            if (!$scope.blogs) {
+                BlogService.queryAll
+                    .read($scope.currentUser)
+                    .$promise.then(function(data) {
+                        if (data.success) {
+                            $scope.blogs = data.success;
+                        } else if (data.error) {
+                            $scope.error = BlogService.toggleMessage(true, data.error);
+                        }
+                    });
+            }
         };
+
+        $scope.init();
     }
 })();

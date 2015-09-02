@@ -30,6 +30,10 @@
             templateUrl: 'partials/blog-list.html',
             controller: 'BlogListController'
         }).
+        when('/blog/:blogId', {
+            templateUrl: 'partials/blog-detail.html',
+            controller: 'BlogDetailController'
+        }).
         otherwise({
             redirectTo: '/'
         });

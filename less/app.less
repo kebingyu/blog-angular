@@ -20,23 +20,27 @@ body {
     }
 }
 
-#profile, #blog {
-    .main {
-        margin-top: 70px;
-        float: none;
+.main {
+    margin-top: 70px;
+    float: none;
+}
+div.header {
+    font-size: 2em;
+    margin: 20px 0;
+}
+span.profile-details__editicon:before {
+    position: relative;
+    left: 15px;
+    cursor: pointer;
+}
+form.profile-details__edit {
+    input {
+        margin-bottom: 10px;
     }
-    div.header {
-        font-size: 2em;
-        margin: 20px 0;
-    }
-    span.profile-details__editicon:before {
-        position: relative;
-        left: 15px;
-        cursor: pointer;
-    }
-    form.profile-details__edit {
-        input {
-            margin-bottom: 10px;
-        }
-    }
+}
+a.blogs-details-link {
+    color: white;
+}
+div.blog-save {
+    margin-top: 20px;
 }

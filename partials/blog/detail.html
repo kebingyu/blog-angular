@@ -1,0 +1,15 @@
+<form class="" role="form" ng-submit="login()">
+  <div class="blog-title header">
+    Title
+  </div>
+  <input type="text" class="form-control" name="title"
+    ng-model="blog.title" value="blog.title">
+  <div class="blog-content header">
+    Content
+  </div>
+  <textarea class="form-control" rows="5" style="resize:none"
+    ng-model="blog.content">{{blog.content}}</textarea>
+  <div class="blog-save">
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
+</form>

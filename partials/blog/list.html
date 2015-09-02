@@ -4,7 +4,9 @@
 <p ng-show="blogs.length == 0">You wrote zero blogs.</p>
 <div class="blogs-details" ng-show="blogs" ng-repeat="blog in blogs">
   <div class="panel panel-primary">
-    <div class="panel-heading">{{blog.title}}</div>
+    <div class="panel-heading">
+      <a href="/blog/{{blog.id}}" class="blogs-details-link">{{blog.title}}</a>
+    </div>
     <div class="panel-body">{{blog.content}}</div>
   </div>
 </div>

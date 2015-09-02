@@ -1,0 +1,23 @@
+<div class="profile-header header">
+  View profile
+</div>
+<div class="profile-details" ng-show="userProfile" ng-repeat="item in userProfile">
+  <div class="panel panel-primary">
+    <div class="panel-heading">{{item.label}}</div>
+    <div class="panel-body">
+      <div class="profile-details__info" ng-show="!item.editing">
+        {{item.value}}
+        <span class="profile-details__editicon glyphicon glyphicon-edit" aria-hidden="true"
+          ng-show="item.editable" ng-click="item.editing=true">
+        </span>
+      </div>
+      <form class="profile-details__edit" role="form" ng-show="item.editing" ng-submit="$parent.updateProfile(item)">
+        <input type="text" name="{{item.field}}" ng-model="item.value" class="form-control" value="{{item.value}}"> 
+        <div class="form-action">
+          <button type="submit" class="btn btn-primary btn-sm">Save</button>
+          <button type="reset" class="btn btn-warning btn-sm" ng-click="$parent.resetProfile(item)">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

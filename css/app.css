@@ -17,19 +17,23 @@ body {
 #home input {
   margin-bottom: 10px;
 }
-#dashboard .main {
+#profile .main,
+#blog .main {
   margin-top: 70px;
   float: none;
 }
-#dashboard div.header {
+#profile div.header,
+#blog div.header {
   font-size: 2em;
   margin: 20px 0;
 }
-#dashboard span.profile-details__editicon:before {
+#profile span.profile-details__editicon:before,
+#blog span.profile-details__editicon:before {
   position: relative;
   left: 15px;
   cursor: pointer;
 }
-#dashboard form.profile-details__edit input {
+#profile form.profile-details__edit input,
+#blog form.profile-details__edit input {
   margin-bottom: 10px;
 }

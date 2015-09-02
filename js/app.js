@@ -22,9 +22,13 @@
             templateUrl: 'partials/register.html',
             controller: 'RegisterController'
         }).
-        when('/dashboard', {
-            templateUrl: 'partials/dashboard.html',
-            controller: 'DashboardController'
+        when('/profile', {
+            templateUrl: 'partials/profile.html',
+            controller: 'ProfileController'
+        }).
+        when('/blog', {
+            templateUrl: 'partials/blog-list.html',
+            controller: 'BlogListController'
         }).
         otherwise({
             redirectTo: '/'

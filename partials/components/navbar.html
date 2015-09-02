@@ -9,10 +9,9 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
             aria-expanded="false">Menu <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a class="pointer" ng-show="states.view=='profile'" ng-click="viewBlog()">View blogs</a></li>
-            <li><a class="pointer" ng-show="states.view=='blog'" ng-click="viewProfile()">View profile</a></li>
-            <li role="separator" class="divider" ng-show="states.view != 'home'"></li>
-            <li><a href="{{goto.url}}">{{goto.text}}</a></li>
+            <li><a class="pointer" ng-hide="states.view=='blog'" href="/blog">View blogs</a></li>
+            <li><a class="pointer" ng-hide="states.view=='profile'" href="/profile">View profile</a></li>
+            <li role="separator" class="divider"></li>
             <li><a class="pointer" ng-click="logout()">Logout</a></li>
           </ul>
         </li>

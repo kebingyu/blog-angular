@@ -6,8 +6,8 @@
         .controller('HomeController', HomeController)
         .controller('RegisterController', RegisterController)
         .controller('ProfileController', ProfileController)
-        .controller('BlogListController', BlogListController)
-        .controller('BlogDetailController', BlogDetailController);
+        .controller('BlogEditController', BlogEditController)
+        .controller('BlogViewController', BlogViewController);
 
     HomeController.$inject = ['$scope', '$location', 'AuthService'];
     function HomeController($scope, $location, AuthService) {
@@ -22,7 +22,7 @@
             AuthService.login.save($scope.data).$promise.then(function(data) {
                 if (data.success) {
                     AuthService.setAuthData(data.success);
-                    $location.path('/blog');
+                    $location.path('/blog/view');
                 } else if (data.error) {
                     $scope.error = AuthService.toggleMessage(true, data.error);
                 }
@@ -131,65 +131,138 @@
         $scope.init();
     }
 
-    BlogListController.$inject = ['$scope', '$location', 'AuthService', 'UserService', 'BlogService'];
-    function BlogListController($scope, $location, AuthService, UserService, BlogService) {
+    BlogViewController.$inject = ['$scope', '$routeParams', '$location', 'AuthService', 'UserService', 'BlogService'];
+    function BlogViewController($scope, $routeParams, $location, AuthService, UserService, BlogService) {
         $scope.reset = function() {
             $scope.error = {};
             $scope.success = {};
         };
         $scope.init = function() {
-            $scope.layoutId = 'blog';
+            $scope.layoutId = 'blog-view';
             $scope.states = {};
             $scope.currentUser = AuthService.getAuthData().currentUser;
             $scope.viewBlog();
         };
         $scope.viewBlog = function() {
             $scope.reset();
-            $scope.states.view = 'blog';
             if (!$scope.blogs) {
-                BlogService.queryAll
-                    .read($scope.currentUser)
+                if ($routeParams.blogId) {
+                    $scope.states.view = 'blog-view';
+                    var payload = $scope.currentUser;
+                    payload.blog_id = $routeParams.blogId;
+                    BlogService.query
+                        .read(payload)
+                        .$promise.then(function(data) {
+                            if (data.success) {
+                                $scope.blogs = data.success;
+                            } else if (data.error) {
+                                $scope.error = BlogService.toggleMessage(true, data.error);
+                            }
+                    });
+                } else {
+                    $scope.states.view = 'blog-view-all';
+                    BlogService.queryAll
+                        .read($scope.currentUser)
+                        .$promise.then(function(data) {
+                            if (data.success) {
+                                $scope.blogs = data.success;
+                            } else if (data.error) {
+                                $scope.error = BlogService.toggleMessage(true, data.error);
+                            }
+                    });
+                }
+            }
+        };
+        $scope.deleteBlog = function(blogId) {
+            var r = window.confirm("Are you sure to delete this blog?");
+            if (r) {
+                var payload = $scope.currentUser;
+                payload.blog_id = blogId;
+                BlogService.query
+                    .remove(payload)
                     .$promise.then(function(data) {
                         if (data.success) {
-                            $scope.blogs = data.success;
+                            delete $scope.blogs;
+                            $scope.viewBlog();
                         } else if (data.error) {
                             $scope.error = BlogService.toggleMessage(true, data.error);
                         }
-                    });
+                });
             }
         };
 
         $scope.init();
     }
 
-    BlogDetailController.$inject = ['$scope', '$routeParams', '$location', 'AuthService', 'UserService', 'BlogService'];
-    function BlogDetailController($scope, $routeParams, $location, AuthService, UserService, BlogService) {
+    BlogEditController.$inject = ['$scope', '$routeParams', '$location', 'AuthService', 'UserService', 'BlogService'];
+    function BlogEditController($scope, $routeParams, $location, AuthService, UserService, BlogService) {
         $scope.reset = function() {
             $scope.error = {};
             $scope.success = {};
         };
         $scope.init = function() {
-            $scope.layoutId = 'blog-detail';
+            $scope.layoutId = 'blog-edit';
             $scope.states = {};
             $scope.currentUser = AuthService.getAuthData().currentUser;
-            $scope.viewBlog();
+            $scope.editBlog();
         };
-        $scope.viewBlog = function() {
+        $scope.editBlog = function() {
             $scope.reset();
-            $scope.states.view = 'blog-detail';
             if (!$scope.blog) {
+                if ($routeParams.blogId) {
+                    $scope.states.view = 'blog-edit';
+                    var payload = $scope.currentUser;
+                    payload.blog_id = $routeParams.blogId;
+                    BlogService.query
+                        .read(payload)
+                        .$promise.then(function(data) {
+                            if (data.success) {
+                                $scope.blog = data.success;
+                            } else if (data.error) {
+                                $scope.error = BlogService.toggleMessage(true, data.error);
+                            }
+                    });
+                } else {
+                    $scope.states.view = 'blog-edit-new';
+                    $scope.blog = {};
+                }
+            }
+        };
+        $scope.saveBlog = function() {
+            if ($routeParams.blogId) {
                 var payload = $scope.currentUser;
-                payload.blog_id = $routeParams.blogId;
+                payload.title = $scope.blog.title;
+                payload.content = $scope.blog.content;
                 BlogService.query
-                    .read(payload)
+                    .update(payload)
                     .$promise.then(function(data) {
                         if (data.success) {
-                            $scope.blog = data.success;
+                            $scope.success = BlogService.toggleMessage(true, 
+                                ['Blog updated.']);
+                            $location.path('/blog/view/' + data.success.id);
                         } else if (data.error) {
                             $scope.error = BlogService.toggleMessage(true, data.error);
                         }
-                    });
+                });
+            } else {
+                var payload = $scope.currentUser;
+                payload.title = $scope.blog.title;
+                payload.content = $scope.blog.content;
+                BlogService.queryAll
+                    .add(payload)
+                    .$promise.then(function(data) {
+                        if (data.success) {
+                            $scope.success = BlogService.toggleMessage(true, 
+                                ['Blog created.']);
+                            $location.path('/blog/view/' + data.success.id);
+                        } else if (data.error) {
+                            $scope.error = BlogService.toggleMessage(true, data.error);
+                        }
+                });
             }
+        };
+        $scope.cancel = function() {
+            window.history.back();
         };
 
         $scope.init();

@@ -33,9 +33,25 @@ span.profile-details__editicon:before {
 form.profile-details__edit input {
   margin-bottom: 10px;
 }
-a.blogs-details-link {
+.blogs-header__title {
+  display: inline-block;
+}
+a.blogs-list-link {
   color: white;
+}
+a.blogs-edit,
+a.blogs-list {
+  float: right;
 }
 div.blog-save {
   margin-top: 20px;
+}
+a.blogs-delete {
+  cursor: pointer;
+  float: right;
+}
+.blogs-filter {
+  float: right;
+  font-size: 0.5em;
+  padding-top: 12px;
 }

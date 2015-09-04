@@ -101,6 +101,9 @@
             user_id : '@user_id',
             token : '@token'
         }, {
+            add : {
+                method : 'POST'
+            },
             read : {
                 method : 'GET'
             },

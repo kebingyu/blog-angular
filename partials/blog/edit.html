@@ -1,4 +1,6 @@
-<form class="" role="form" ng-submit="login()">
+<form class="" role="form"
+  ng-submit="saveBlog()"
+  ng-show="true">
   <div class="blog-title header">
     Title
   </div>
@@ -7,9 +9,10 @@
   <div class="blog-content header">
     Content
   </div>
-  <textarea class="form-control" rows="5" style="resize:none"
+  <textarea class="form-control" rows="15" style="resize:none"
     ng-model="blog.content">{{blog.content}}</textarea>
   <div class="blog-save">
     <button type="submit" class="btn btn-primary">Save</button>
+    <button type="reset" class="btn btn-warning" ng-click="cancel()">Cancel</button>
   </div>
 </form>

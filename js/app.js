@@ -26,13 +26,13 @@
             templateUrl: 'partials/profile.html',
             controller: 'ProfileController'
         }).
-        when('/blog', {
-            templateUrl: 'partials/blog-list.html',
-            controller: 'BlogListController'
+        when('/blog/view/:blogId?', {
+            templateUrl: 'partials/blog-view.html',
+            controller: 'BlogViewController'
         }).
-        when('/blog/:blogId', {
-            templateUrl: 'partials/blog-detail.html',
-            controller: 'BlogDetailController'
+        when('/blog/edit/:blogId?', {
+            templateUrl: 'partials/blog-edit.html',
+            controller: 'BlogEditController'
         }).
         when('/logout', {
             resolve: {

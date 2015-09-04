@@ -1,0 +1,56 @@
+<div class="blogs-header header">
+  <p class="blogs-header__title" ng-show="states.view == 'blog-view-all'">View blogs</p>
+  <p class="blogs-header__title" ng-show="states.view == 'blog-view'">View blog</p>
+  <a href="/blog/edit" class="blogs-plus">
+    <span class="blogs-plusicon glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </a>
+  <a href="/blog/view" class="blogs-list" ng-show="states.view == 'blog-view'">
+    <span class="blogs-listicon glyphicon glyphicon-list" aria-hidden="true"</span>
+  </a>
+  <span class="blogs-filter" ng-show="states.view == 'blog-view-all'">
+    Search: <input ng-model="query">
+    Sort by:
+    <select ng-model="orderProp">
+      <option value="title">Alphabetical</option>
+      <option value="created_at">Newest</option>
+    </select>
+  </span>
+</div>
+<p ng-show="blogs.length == 0">You wrote zero blogs.</p>
+<div class="blogs-list" 
+  ng-show="states.view == 'blog-view-all' && error.show != true"
+  ng-repeat="blog in blogs | filter:query | orderBy:orderProp">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <a href="/blog/view/{{blog.id}}" class="blogs-list-link">{{blog.title}}</a>
+      <a href="/blog/edit/{{blog.id}}" class="blogs-edit blogs-list-link">
+        <span class="blogs-editicon glyphicon glyphicon-edit" aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="panel-body">{{blog.content}}</div>
+    <div class="panel-footer">
+      Created at {{blog.created_at}}
+      <a ng-click="deleteBlog(blog.id)" class="blogs-delete">
+        <span class="blogs-trashicon glyphicon glyphicon-trash" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="blogs-list" ng-show="states.view == 'blog-view' && error.show != true">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      {{blogs.title}}
+      <a href="/blog/edit/{{blogs.id}}" class="blogs-edit blogs-list-link">
+        <span class="blogs-editicon glyphicon glyphicon-edit" aria-hidden="true"</span>
+      </a>
+    </div>
+    <div class="panel-body">{{blogs.content}}</div>
+    <div class="panel-footer">
+      Created at {{blogs.created_at}}
+      <a ng-click="deleteBlog(blog.id)" class="blogs-delete">
+        <span class="blogs-trashicon glyphicon glyphicon-trash" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+</div>

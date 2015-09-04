@@ -28,18 +28,6 @@
                 }
             });
         };
-        $scope.logout = function() {
-            AuthService.logout
-                .save(AuthService.getAuthData().currentUser)
-                .$promise.then(function(data) {
-                    if (data.success) {
-                        AuthService.clearAuthData();
-                        $location.path('/');
-                    } else if (data.error) {
-                        $scope.error = AuthService.toggleMessage(true, data.error);
-                    }
-                });
-        };
 
         $scope.init();
     }
@@ -79,18 +67,6 @@
             $scope.states = {};
             $scope.currentUser = AuthService.getAuthData().currentUser;
             $scope.viewProfile();
-        };
-        $scope.logout = function() {
-            AuthService.logout
-                .save($scope.currentUser)
-                .$promise.then(function(data) {
-                    if (data.success) {
-                        AuthService.clearAuthData();
-                        $location.path('/');
-                    } else if (data.error) {
-                        $scope.error = UserService.toggleMessage(true, data.error);
-                    }
-                });
         };
         $scope.viewProfile = function() {
             $scope.states.view = 'profile';
@@ -167,18 +143,6 @@
             $scope.currentUser = AuthService.getAuthData().currentUser;
             $scope.viewBlog();
         };
-        $scope.logout = function() {
-            AuthService.logout
-                .save($scope.currentUser)
-                .$promise.then(function(data) {
-                    if (data.success) {
-                        AuthService.clearAuthData();
-                        $location.path('/');
-                    } else if (data.error) {
-                        $scope.error = UserService.toggleMessage(true, data.error);
-                    }
-                });
-        };
         $scope.viewBlog = function() {
             $scope.reset();
             $scope.states.view = 'blog';
@@ -209,18 +173,6 @@
             $scope.states = {};
             $scope.currentUser = AuthService.getAuthData().currentUser;
             $scope.viewBlog();
-        };
-        $scope.logout = function() {
-            AuthService.logout
-                .save($scope.currentUser)
-                .$promise.then(function(data) {
-                    if (data.success) {
-                        AuthService.clearAuthData();
-                        $location.path('/');
-                    } else if (data.error) {
-                        $scope.error = UserService.toggleMessage(true, data.error);
-                    }
-                });
         };
         $scope.viewBlog = function() {
             $scope.reset();

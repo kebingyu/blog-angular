@@ -34,6 +34,22 @@
             templateUrl: 'partials/blog-detail.html',
             controller: 'BlogDetailController'
         }).
+        when('/logout', {
+            resolve: {
+                logout: function ($location, $http, AuthService) {
+                    AuthService.logout
+                    .save(AuthService.getAuthData().currentUser)
+                    .$promise.then(function(data) {
+                        if (data.success) {
+                            AuthService.clearAuthData();
+                            $location.path('/');
+                        } else if (data.error) {
+                            throw '';
+                        }
+                    });
+                }
+            }
+        }).
         otherwise({
             redirectTo: '/'
         });

@@ -156,14 +156,7 @@
                         .$promise.then(function(data) {
                             if (data.success) {
                                 $scope.blogs = data.success;
-                                // read tags
-                                TagService.queryByBlogId
-                                    .read(payload)
-                                    .$promise.then(function(data) {
-                                        if (data.success) {
-                                            $scope.blogs.tags = data.success;
-                                        }
-                                });
+                                $scope.getTags($scope.blogs, $routeParams.blogId);
                             } else if (data.error) {
                                 $scope.error = BlogService.toggleMessage(true, data.error);
                             }
@@ -175,6 +168,9 @@
                         .$promise.then(function(data) {
                             if (data.success) {
                                 $scope.blogs = data.success;
+                                for (var i = 0, j = $scope.blogs.length; i < j; i++) {
+                                    $scope.getTags($scope.blogs[i], $scope.blogs[i].id);
+                                }
                             } else if (data.error) {
                                 $scope.error = BlogService.toggleMessage(true, data.error);
                             }
@@ -211,6 +207,17 @@
                 } else if (data.error) {
                     $scope.error = BlogService.toggleMessage(true, data.error);
                 }
+            });
+        };
+        $scope.getTags = function(blog, blogId) {
+            var payload = $scope.currentUser;
+            payload.blog_id = blogId;
+            TagService.queryByBlogId
+                .read(payload)
+                .$promise.then(function(data) {
+                    if (data.success) {
+                        blog.tags = data.success;
+                    }
             });
         };
         $scope.removeTag = function(tagId) {

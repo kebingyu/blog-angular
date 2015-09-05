@@ -29,10 +29,17 @@
     </div>
     <div class="panel-body">{{blog.content}}</div>
     <div class="panel-footer">
-      Created at {{blog.created_at}}
-      <a ng-click="deleteBlog(blog.id)" class="blogs-delete">
-        <span class="blogs-trashicon glyphicon glyphicon-trash" aria-hidden="true"></span>
-      </a>
+      <div class="blogs-tags-list">
+        <span class="label label-primary label-as-badge" ng-repeat="tag in blog.tags">
+          {{tag.content}}
+        </span>
+      </div>
+      <div class="blogs-timestamp">
+        Created at {{blog.created_at}}
+        <a ng-click="deleteBlog(blog.id)" class="blogs-delete">
+          <span class="blogs-trashicon glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a>
+      </div>
     </div>
   </div>
 </div>
@@ -49,11 +56,9 @@
     <div class="panel-footer">
       <div class="blogs-tags-add">
         <form class="blogs-tags-form" role="form" ng-submit="addTag()">
-          <input type="text" name="content" ng-model="addTag.content" placeholder="Add a new tag">
+          <input type="text" class="form-control" name="content"
+            ng-model="addTag.content" placeholder="Add a new tag">
         </form>
-        <a ng-click="deleteBlog(blogs.id)" class="blogs-delete">
-          <span class="blogs-trashicon glyphicon glyphicon-trash" aria-hidden="true"></span>
-        </a>
       </div>
       <div class="blogs-tags-list">
         <span class="label label-primary label-as-badge" ng-repeat="tag in blogs.tags">
@@ -62,6 +67,12 @@
             <span class="tags-removeicon glyphicon glyphicon-remove" aria-hidden="true"</span>
           </a>
         </span>
+      </div>
+      <div class="blogs-timestamp">
+      Created at {{blogs.created_at}}
+        <a ng-click="deleteBlog(blogs.id)" class="blogs-delete">
+          <span class="blogs-trashicon glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a>
       </div>
     </div>
   </div>

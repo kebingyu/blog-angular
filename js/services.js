@@ -6,7 +6,8 @@
         .module('blogServices', ['ngResource'])
         .factory('AuthService', AuthService)
         .factory('UserService', UserService)
-        .factory('BlogService', BlogService);
+        .factory('BlogService', BlogService)
+        .factory('TagService', TagService);
 
     AuthService.$inject = ['$cookieStore', '$rootScope', '$timeout', '$http', '$resource'];
     function AuthService($cookieStore, $rootScope, $timeout, $http, $resource) {
@@ -104,6 +105,62 @@
             add : {
                 method : 'POST'
             },
+            read : {
+                method : 'GET'
+            },
+            remove : {
+                method : 'DELETE'
+            }
+        });
+        service.toggleMessage = function(show, messages) {
+            return {
+                show : show,
+                messages : messages || []
+            };
+        };
+
+        return service;
+    }
+
+    TagService.$inject = ['$resource'];
+    function TagService($resource) {
+        var service = {};
+        service.query = $resource(apiEndpoint + '/v1/tag?user_id=:user_id&token=:token', {
+            user_id : '@user_id',
+            token : '@token'
+        }, {
+            add : {
+                method : 'POST'
+            }
+        });
+        service.queryByTagId = $resource(apiEndpoint + '/v1/tag/:tag_id?user_id=:user_id&token=:token', {
+            tag_id : '@tag_id',
+            user_id : '@user_id',
+            token : '@token'
+        }, {
+            read : {
+                method : 'GET'
+            },
+            remove : {
+                method : 'DELETE'
+            }
+        });
+        service.queryByBlogId = $resource(apiEndpoint + '/v1/tag/blog/:blog_id?user_id=:user_id&token=:token', {
+            blog_id : '@blog_id',
+            user_id : '@user_id',
+            token : '@token'
+        }, {
+            read : {
+                method : 'GET'
+            },
+            remove : {
+                method : 'DELETE'
+            }
+        });
+        service.queryByUserId = $resource(apiEndpoint + '/v1/tag/user/:user_id?user_id=:user_id&token=:token', {
+            user_id : '@user_id',
+            token : '@token'
+        }, {
             read : {
                 method : 'GET'
             },

@@ -40,12 +40,11 @@
                     AuthService.logout
                     .save(AuthService.getAuthData().currentUser)
                     .$promise.then(function(data) {
-                        if (data.success) {
-                            AuthService.clearAuthData();
-                            $location.path('/');
-                        } else if (data.error) {
-                            throw '';
+                        if (data.error) {
+                            // log the error
                         }
+                        AuthService.clearAuthData();
+                        $location.path('/');
                     });
                 }
             }

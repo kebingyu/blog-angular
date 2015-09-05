@@ -47,10 +47,22 @@
     </div>
     <div class="panel-body">{{blogs.content}}</div>
     <div class="panel-footer">
-      Created at {{blogs.created_at}}
-      <a ng-click="deleteBlog(blog.id)" class="blogs-delete">
-        <span class="blogs-trashicon glyphicon glyphicon-trash" aria-hidden="true"></span>
-      </a>
+      <div class="blogs-tags-add">
+        <form class="blogs-tags-form" role="form" ng-submit="addTag()">
+          <input type="text" name="content" ng-model="addTag.content" placeholder="Add a new tag">
+        </form>
+        <a ng-click="deleteBlog(blogs.id)" class="blogs-delete">
+          <span class="blogs-trashicon glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </a>
+      </div>
+      <div class="blogs-tags-list">
+        <span class="label label-primary label-as-badge" ng-repeat="tag in blogs.tags">
+          {{tag.content}}
+          <a ng-click="removeTag(tag.id)" class="blogs-tags-remove">
+            <span class="tags-removeicon glyphicon glyphicon-remove" aria-hidden="true"</span>
+          </a>
+        </span>
+      </div>
     </div>
   </div>
 </div>

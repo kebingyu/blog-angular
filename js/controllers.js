@@ -131,8 +131,8 @@
         $scope.init();
     }
 
-    BlogViewController.$inject = ['$scope', '$routeParams', '$location', 'AuthService', 'UserService', 'BlogService'];
-    function BlogViewController($scope, $routeParams, $location, AuthService, UserService, BlogService) {
+    BlogViewController.$inject = ['$scope', '$routeParams', '$location', '$route', 'AuthService', 'UserService', 'BlogService', 'TagService'];
+    function BlogViewController($scope, $routeParams, $location, $route, AuthService, UserService, BlogService, TagService) {
         $scope.reset = function() {
             $scope.error = {};
             $scope.success = {};
@@ -150,11 +150,20 @@
                     $scope.states.view = 'blog-view';
                     var payload = $scope.currentUser;
                     payload.blog_id = $routeParams.blogId;
+                    // read blog
                     BlogService.query
                         .read(payload)
                         .$promise.then(function(data) {
                             if (data.success) {
                                 $scope.blogs = data.success;
+                                // read tags
+                                TagService.queryByBlogId
+                                    .read(payload)
+                                    .$promise.then(function(data) {
+                                        if (data.success) {
+                                            $scope.blogs.tags = data.success;
+                                        }
+                                });
                             } else if (data.error) {
                                 $scope.error = BlogService.toggleMessage(true, data.error);
                             }
@@ -182,13 +191,44 @@
                     .remove(payload)
                     .$promise.then(function(data) {
                         if (data.success) {
-                            delete $scope.blogs;
-                            $scope.viewBlog();
+                            $location.path('/blog/view');
+                            $route.reload();
                         } else if (data.error) {
                             $scope.error = BlogService.toggleMessage(true, data.error);
                         }
                 });
             }
+        };
+        $scope.addTag = function() {
+            var payload = $scope.currentUser;
+            payload.content = $scope.addTag.content; 
+            TagService.query
+            .add(payload)
+            .$promise.then(function(data) {
+                if (data.success) {
+                    $scope.blogs.tags.push(data.success);
+                    $scope.addTag.content = '';
+                } else if (data.error) {
+                    $scope.error = BlogService.toggleMessage(true, data.error);
+                }
+            });
+        };
+        $scope.removeTag = function(tagId) {
+            var payload = $scope.currentUser;
+            payload.tag_id = tagId;
+            TagService.queryByTagId
+            .remove(payload)
+            .$promise.then(function(data) {
+                if (data.success) {
+                    for (var i = 0, j = $scope.blogs.tags.length; i < j; i++) {
+                        if (tagId == $scope.blogs.tags[i].id) {
+                            $scope.blogs.tags.splice(i, 1);
+                        }
+                    }
+                } else if (data.error) {
+                    $scope.error = BlogService.toggleMessage(true, data.error);
+                }
+            });
         };
 
         $scope.init();

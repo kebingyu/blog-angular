@@ -19,6 +19,7 @@
             };
         };
         $scope.login = function() {
+            $scope.loading = true;
             AuthService.login.save($scope.data).$promise.then(function(data) {
                 if (data.success) {
                     AuthService.setAuthData(data.success);
@@ -26,6 +27,10 @@
                 } else if (data.error) {
                     $scope.error = AuthService.toggleMessage(true, data.error);
                 }
+            }, function(response) {
+                // handle error
+            }).finally(function() {
+                $scope.loading = false;
             });
         };
 
@@ -40,6 +45,7 @@
             $scope.success = {};
         };
         $scope.register = function() {
+            $scope.loading = true;
             AuthService.register.save($scope.data).$promise.then(function(data) {
                 if (data.success) {
                     $scope.error.show = false;
@@ -50,6 +56,8 @@
                 } else if (data.error) {
                     $scope.error = AuthService.toggleMessage(true, data.error);
                 }
+            }).finally(function() {
+                $scope.loading = false;
             });
         };
 
@@ -69,6 +77,7 @@
             $scope.viewProfile();
         };
         $scope.viewProfile = function() {
+            $scope.loading = true;
             $scope.states.view = 'profile';
             $scope.reset();
             if (!$scope.userProfile) {
@@ -98,10 +107,13 @@
                         } else if (data.error) {
                             $scope.error = UserService.toggleMessage(true, data.error);
                         }
+                    }).finally(function() {
+                        $scope.loading = false;
                     });
             }
         };
         $scope.updateProfile = function(item) {
+            $scope.loading = true;
             var data = $scope.currentUser;
             data[item.field] = item.value;
             UserService.query
@@ -122,6 +134,8 @@
                     } else if (data.error) {
                         $scope.error = UserService.toggleMessage(true, data.error);
                     }
+                }).finally(function() {
+                    $scope.loading = false;
                 });
         };
         $scope.resetProfile = function(item) {
@@ -146,6 +160,7 @@
         $scope.viewBlog = function() {
             $scope.reset();
             if (!$scope.blogs) {
+                $scope.loading = true;
                 if ($routeParams.blogId) {
                     $scope.states.view = 'blog-view';
                     var payload = $scope.currentUser;
@@ -160,6 +175,8 @@
                             } else if (data.error) {
                                 $scope.error = BlogService.toggleMessage(true, data.error);
                             }
+                    }).finally(function() {
+                        $scope.loading = false;
                     });
                 } else {
                     $scope.states.view = 'blog-view-all';
@@ -174,6 +191,8 @@
                             } else if (data.error) {
                                 $scope.error = BlogService.toggleMessage(true, data.error);
                             }
+                    }).finally(function() {
+                        $scope.loading = false;
                     });
                 }
             }
@@ -181,6 +200,7 @@
         $scope.deleteBlog = function(blogId) {
             var r = window.confirm("Are you sure to delete this blog?");
             if (r) {
+                $scope.loading = true;
                 var payload = $scope.currentUser;
                 payload.blog_id = blogId;
                 BlogService.query
@@ -192,10 +212,13 @@
                         } else if (data.error) {
                             $scope.error = BlogService.toggleMessage(true, data.error);
                         }
+                }).finally(function() {
+                    $scope.loading = false;
                 });
             }
         };
         $scope.addTag = function() {
+            $scope.loading = true;
             var payload = $scope.currentUser;
             payload.content = $scope.addTag.content; 
             TagService.query
@@ -207,6 +230,8 @@
                 } else if (data.error) {
                     $scope.error = BlogService.toggleMessage(true, data.error);
                 }
+            }).finally(function() {
+                $scope.loading = false;
             });
         };
         $scope.getTags = function(blog, blogId) {
@@ -221,6 +246,7 @@
             });
         };
         $scope.removeTag = function(tagId) {
+            $scope.loading = true;
             var payload = $scope.currentUser;
             payload.tag_id = tagId;
             TagService.queryByTagId
@@ -235,6 +261,8 @@
                 } else if (data.error) {
                     $scope.error = BlogService.toggleMessage(true, data.error);
                 }
+            }).finally(function() {
+                $scope.loading = false;
             });
         };
 
@@ -257,6 +285,7 @@
             $scope.reset();
             if (!$scope.blog) {
                 if ($routeParams.blogId) {
+                    $scope.loading = true;
                     $scope.states.view = 'blog-edit';
                     var payload = $scope.currentUser;
                     payload.blog_id = $routeParams.blogId;
@@ -268,6 +297,8 @@
                             } else if (data.error) {
                                 $scope.error = BlogService.toggleMessage(true, data.error);
                             }
+                    }).finally(function() {
+                        $scope.loading = false;
                     });
                 } else {
                     $scope.states.view = 'blog-edit-new';
@@ -276,6 +307,7 @@
             }
         };
         $scope.saveBlog = function() {
+            $scope.loading = true;
             if ($routeParams.blogId) {
                 var payload = $scope.currentUser;
                 payload.title = $scope.blog.title;
@@ -290,6 +322,8 @@
                         } else if (data.error) {
                             $scope.error = BlogService.toggleMessage(true, data.error);
                         }
+                }).finally(function() {
+                    $scope.loading = false;
                 });
             } else {
                 var payload = $scope.currentUser;
@@ -305,6 +339,8 @@
                         } else if (data.error) {
                             $scope.error = BlogService.toggleMessage(true, data.error);
                         }
+                }).finally(function() {
+                    $scope.loading = false;
                 });
             }
         };

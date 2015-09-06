@@ -1,11 +1,27 @@
+.fullscreen {
+    width: 100%;
+    height: 100%;
+}
 body {
     background: #edf0f5;
 }
-
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: grey;
+    opacity: 0.5;
+}
+.overlay-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -50px;
+}
 .pointer {
     cursor: pointer;
 }
-
 #home {
     clear: both;
     overflow: hidden;
@@ -19,7 +35,6 @@ body {
         margin-bottom: 10px;
     }
 }
-
 .main {
     margin-top: 70px;
     float: none;

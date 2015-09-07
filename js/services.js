@@ -1,7 +1,8 @@
 (function() {
     'use strict';
 
-    var apiEndpoint = "http://api.laravel.com";
+    var apiEndpoint = "http://api.laravel.com"; // php end point
+    //var apiEndpoint = "http://localhost:3000"; // node.js end point
     angular
         .module('blogServices', ['ngResource'])
         .factory('AuthService', AuthService)
@@ -173,6 +174,14 @@
                 show : show,
                 messages : messages || []
             };
+        };
+        service.isEmptyObject = function(obj) {
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    return false;
+                }
+            }
+            return true;
         };
 
         return service;

@@ -222,14 +222,16 @@
             var payload = $scope.currentUser;
             payload.content = $scope.addTag.content; 
             TagService.query
-            .add(payload)
-            .$promise.then(function(data) {
-                if (data.success) {
-                    $scope.blogs.tags.push(data.success);
-                    $scope.addTag.content = '';
-                } else if (data.error) {
-                    $scope.error = BlogService.toggleMessage(true, data.error);
-                }
+                .add(payload)
+                .$promise.then(function(data) {
+                    if (data.success) {
+                        if (!TagService.isEmptyObject(data.success)) {
+                            $scope.blogs.tags.push(data.success);
+                        }
+                        $scope.addTag.content = '';
+                    } else if (data.error) {
+                        $scope.error = BlogService.toggleMessage(true, data.error);
+                    }
             }).finally(function() {
                 $scope.loading = false;
             });
@@ -242,6 +244,8 @@
                 .$promise.then(function(data) {
                     if (data.success) {
                         blog.tags = data.success;
+                    } else {
+                        blog.tags = [];
                     }
             });
         };

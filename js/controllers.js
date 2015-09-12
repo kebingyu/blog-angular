@@ -171,7 +171,6 @@
                         .$promise.then(function(data) {
                             if (data.success) {
                                 $scope.blogs = data.success;
-                                $scope.getTags($scope.blogs, $routeParams.blogId);
                             } else if (data.error) {
                                 $scope.error = BlogService.toggleMessage(true, data.error);
                             }
@@ -185,9 +184,6 @@
                         .$promise.then(function(data) {
                             if (data.success) {
                                 $scope.blogs = data.success;
-                                for (var i = 0, j = $scope.blogs.length; i < j; i++) {
-                                    $scope.getTags($scope.blogs[i], $scope.blogs[i].id);
-                                }
                             } else if (data.error) {
                                 $scope.error = BlogService.toggleMessage(true, data.error);
                             }

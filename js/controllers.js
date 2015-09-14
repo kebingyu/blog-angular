@@ -178,9 +178,13 @@
                         $scope.loading = false;
                     });
                 } else {
+                    var payload = $scope.currentUser;
+                    if ($routeParams.tag) { // get all blogs with given tag
+                        payload.tag = $routeParams.tag;
+                    }
                     $scope.states.view = 'blog-view-all';
                     BlogService.queryAll
-                        .read($scope.currentUser)
+                        .read(payload)
                         .$promise.then(function(data) {
                             if (data.success) {
                                 $scope.blogs = data.success;

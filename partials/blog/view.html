@@ -16,7 +16,7 @@
     </select>
   </span>
 </div>
-<p ng-show="blogs.length == 0">You wrote zero blogs.</p>
+<p ng-show="blogs.length == 0">Zero blog found.</p>
 <div class="blogs-list" 
   ng-show="states.view == 'blog-view-all' && error.show != true"
   ng-repeat="blog in blogs | filter:query | orderBy:orderProp">
@@ -31,7 +31,7 @@
     <div class="panel-footer">
       <div class="blogs-tags-list">
         <span class="label label-primary label-as-badge" ng-repeat="tag in blog.tags">
-          {{tag.content}}
+          <a href="/blog/view?tag={{tag.content}}" class="blogs-tags-sort">{{tag.content}}</a>
         </span>
       </div>
       <div class="blogs-timestamp">
@@ -62,7 +62,7 @@
       </div>
       <div class="blogs-tags-list">
         <span class="label label-primary label-as-badge" ng-repeat="tag in blogs.tags">
-          {{tag.content}}
+          <a href="/blog/view?tag={{tag.content}}" class="blogs-tags-sort">{{tag.content}}</a>
           <a ng-click="removeTag(tag.id)" class="blogs-tags-remove">
             <span class="tags-removeicon glyphicon glyphicon-remove" aria-hidden="true"</span>
           </a>

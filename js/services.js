@@ -2,7 +2,8 @@
     'use strict';
 
     //var apiEndpoint = "http://api.laravel.com"; // php end point
-    var apiEndpoint = "http://localhost:3000"; // node.js end point
+    //var apiEndpoint = "http://localhost:3000"; // node.js end point
+    var apiEndpoint = "http://localhost:8000"; // django end point
     angular
         .module('blogServices', ['ngResource'])
         .factory('AuthService', AuthService)
